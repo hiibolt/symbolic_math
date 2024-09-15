@@ -6,3 +6,4 @@ type P:
   F24 { val } # F24
   Br          # Break
   ABN { val } # ABN
+  Exp { exp } # Expression

@@ -8,7 +8,7 @@ def string_to_token_list ( st ):
   fold st:
     case String/Cons:
       if st.head == 45:
-        return List/Cons { head: ABNToken/NegativeSign, tail: st.tail }
+        return st.tail
       else:
         if st.head == 46:
           return List/Cons { head: ABNToken/DecimalPoint, tail: st.tail }
@@ -31,7 +31,5 @@ def token_list_to_string ( tokens ):
           return String/Cons { head: tokens.head.value + 48, tail: tokens.tail }
         case ABNToken/DecimalPoint:
           return String/Cons { head: 46, tail: tokens.tail }
-        case ABNToken/NegativeSign:
-          return String/Cons { head: 45, tail: tokens.tail }
     case List/Nil:
       return String/Nil

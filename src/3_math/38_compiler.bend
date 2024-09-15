@@ -2,7 +2,7 @@ def evaluate ( exp ):
   fold exp:
     # Constants
     case M/Zero:
-      return ABN/TokenArray { ta: List/Nil };
+      return abn_new_ta(0, List/Nil);
 
     # Values
     case M/ABN:
@@ -12,16 +12,16 @@ def evaluate ( exp ):
     case M/Add:
       return abn_add(exp.augend, exp.addend);
     case M/Sub:
-      return exp.minuend + exp.subtrahend;
-    case M/Mul:
-      return exp.multiplier * exp.multiplicand;
-    case M/Div:
-      return exp.numerator / exp.denominator;
+      return abn_sub(exp.minuend, exp.subtrahend);
+    #case M/Mul:
+    #  return exp.multiplier * exp.multiplicand;
+    #case M/Div:
+    #  return exp.numerator / exp.denominator;
 
     # Unusual Operations
-    case M/Factorial:
-      return factorial(exp.operand);
+    #case M/Factorial:
+    #  return factorial(exp.operand);
 
     # Basic Trig Operations
-    case M/Sin:
-      return sin(exp.theta, exp.terms);
+    #case M/Sin:
+    #  return sin(exp.theta, exp.terms);

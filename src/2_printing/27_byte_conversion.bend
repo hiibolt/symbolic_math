@@ -65,6 +65,41 @@ def f24_to_string(n):
     case String/Nil:
       return int_result
 
+def exp_to_string ( m ):
+  fold m:
+    # Constants
+    case M/Zero:
+      return String/Cons { head: 48, tail: String/Nil }
+    #PI
+
+    # Values
+    case M/ABN:
+      return abn_to_str(m.value)
+    #Var { name }
+
+    # Basic Arithmetic Operations
+    case M/Add:
+      inner = List/concat(m.augend, String/Cons { head: 43, tail: m.addend })
+
+      # Add parentheses
+      return List/concat(String/Cons { head: 40, tail: inner }, String/Cons { head: 41, tail: String/Nil })
+    case M/Sub:
+      inner = List/concat(m.minuend, String/Cons { head: 45, tail: m.subtrahend })
+
+      # Add parentheses
+      return List/concat(String/Cons { head: 40, tail: inner }, String/Cons { head: 41, tail: String/Nil })
+    #Mul  { ~multiplier, ~multiplicand   }
+    #Div  { ~numerator,  ~denominator    }
+
+    #Exp  { ~base,       ~exponent       }
+    #Root { ~degree,     ~radicand       }
+    #Log  { ~base,       ~anti_logarithm }
+    #Factorial { ~operand }
+
+    # Basic Trigonometric Operations
+    #  * All operations are calculated in radians.
+    #Sin { ~theta, terms }
+
 def printable_to_bytes( input ):
   match input:
     case P/U24:
@@ -79,5 +114,7 @@ def printable_to_bytes( input ):
       return String/encode_utf8("\n")
     case P/ABN:
       return String/encode_utf8(abn_to_str(input.val))
+    case P/Exp:
+      return String/encode_utf8(exp_to_string(input.exp))
     case _:
       return String/encode_utf8("[NO STRING REPRESENTATION]")

@@ -9,7 +9,7 @@ type M:
 
   # Basic Arithmetic Operations
   Add  { ~augend,     ~addend         }
-  #Sub  { ~minuend,    ~subtrahend     }
+  Sub  { ~minuend,    ~subtrahend     }
   #Mul  { ~multiplier, ~multiplicand   }
   #Div  { ~numerator,  ~denominator    }
 
