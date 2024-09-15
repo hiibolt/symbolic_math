@@ -1,91 +1,45 @@
-type ABN:
-  TokenArray { ta }
-
-type ABNToken:
-  Digit { value }
-  DecimalPoint
-  NegativeSign
-
-# Takes a string and converts it to an ABN
-#
-# Example:
-# ```bend
-# new_abn("+123.456")
-# ```
-def new_abn ( string ):
-  return ABN/TokenArray { ta: string_to_token_list(string) }
-
-def string_to_token_list ( st ):
-  fold st:
-    case String/Cons:
-      if st.head == 43:
-        return List/Cons { head: ABNToken/NegativeSign, tail: st.tail }
-      else:
-        if st.head == 46:
-          return List/Cons { head: ABNToken/DecimalPoint, tail: st.tail }
-        else:
-          return List/Cons { head: ABNToken/Digit { value: st.head - 48 }, tail: st.tail }
-    case String/Nil:
-      return List/Nil
-
-def token_list_to_string ( tokens ):
-  fold tokens:
-    case List/Cons:
-      match tokens.head:
-        case ABNToken/Digit:
-          return String/Cons { head: tokens.head.value + 48, tail: tokens.tail }
-        case ABNToken/DecimalPoint:
-          return String/Cons { head: 46, tail: tokens.tail }
-        case ABNToken/NegativeSign:
-          return String/Cons { head: 43, tail: tokens.tail }
-    case List/Nil:
-      return String/Nil
-
-def abn_to_str ( abn ):
-  match abn:
-    case ABN/TokenArray:
-      return token_list_to_string(abn.ta)
-
 def main: 
   # Example for ABN
-  abn_1 = new_abn("-123.4")
+  abn_1 = abn_new("996789.96785679564")
+  abn_2 = abn_new("5671.056786789")
 
-  # Print the ABN
-  result_0 = abn_to_str(abn_1)
+  abn_3 = abn_add(abn_1, abn_2)
 
-  #result = add_abn(abn_1, abn_2)
-
+  abn_result = format([
+    P/Str { val: "Adding:" },
+    P/Br,
+    P/ABN { val: abn_1 },
+    P/Br,
+    P/Br,
+    P/Str { val: "And:" },
+    P/Br,
+    P/ABN { val: abn_2 },
+    P/Br,
+    P/Br,
+    P/Str { val: "Gives:" },
+    P/Br,
+    P/ABN { val: abn_3 },
+    P/Br,
+    P/Br,
+    P/Br
+  ])
 
   # Example for math
-  result_1 = evaluate(M/Add { 
-    augend: M/Int { value: +2.0 }, 
-    addend: M/Int { value: +2.0 }
+  value = evaluate(M/Add { 
+    augend: M/ABN { value: abn_new("1.0") },
+    addend: M/ABN { value: abn_new("2.0") }
   })
-  result_2 = evaluate(M/Add { 
-    augend: M/Sin { theta: M/PI, terms: +40.0 }, 
-    addend: M/Int { value: +2.0 }
-  })
-
-  res_result = format([
-    P/S { val: "Expression 0: "},
-    P/S { val: result_0 },
-    P/B
-  ])
-  exp_1_result = format([
-    P/S { val: "Expression 1: "},
-    P/F { val: result_1 },
-    P/B
-  ])
-  exp_2_result = format([
-    P/S { val: "Expression 2: "},
-    P/F { val: result_2 },
-    P/B
+  exp_result = format([
+    P/Str { val: "Math Expression Example: "},
+    P/ABN { val: value },
+    P/Br
   ])
   
   with IO:
-    * <- IO/FS/write(1, res_result)
+    * <- IO/FS/write(1, "[ Title - ABN PoC - Bend ]\n")
+    * <- IO/FS/write(1, "[   Author - @hiibolt    ]\n")
+    * <- IO/FS/write(1, abn_result)
 
-    * <- IO/FS/write(1, exp_1_result) 
-    * <- IO/FS/write(1, exp_2_result)
+    * <- IO/FS/write(1, exp_result) 
 
-    return abn_1
+    return 1

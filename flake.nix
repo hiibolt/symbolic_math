@@ -13,12 +13,13 @@
     in
     {
     devShells.x86_64-linux.default = pkgs.mkShell {
-      buildInputs = [ pkgs.bend pkgs.cargo ];
+      buildInputs = [ pkgs.cargo ];
       shellHook = 
         ''
         mkdir ./cargo
         export PATH=$PATH:./cargo/bin
-        cargo install hvm --root ./cargo
+        cargo install hvm --root ./cargo 
+        cargo install bend-lang --root ./cargo --git https://github.com/HigherOrderCO/Bend.git --tag 0.2.37-alpha.1
         '';
       
     };

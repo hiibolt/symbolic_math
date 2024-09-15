@@ -67,15 +67,17 @@ def f24_to_string(n):
 
 def printable_to_bytes( input ):
   match input:
-    case P/U:
+    case P/U24:
       return String/encode_utf8(u24_to_string(input.val))
-    case P/I:
+    case P/I24:
       return String/encode_utf8(i24_to_string(input.val))
-    case P/F:
+    case P/F24:
       return String/encode_utf8(f24_to_string(input.val))
-    case P/S:
+    case P/Str:
       return String/encode_utf8(input.val)
-    case P/B:
+    case P/Br:
       return String/encode_utf8("\n")
+    case P/ABN:
+      return String/encode_utf8(abn_to_str(input.val))
     case _:
       return String/encode_utf8("[NO STRING REPRESENTATION]")

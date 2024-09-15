@@ -2,19 +2,15 @@ def evaluate ( exp ):
   fold exp:
     # Constants
     case M/Zero:
-      return +0.0;
-    case M/PI:
-      return +3.14;
+      return ABN/TokenArray { ta: List/Nil };
 
     # Values
-    case M/Int:
-      return exp.value;
-    case M/Dec:
+    case M/ABN:
       return exp.value;
 
     # Basic Arithmetic Operations
     case M/Add:
-      return exp.augend + exp.addend;
+      return abn_add(exp.augend, exp.addend);
     case M/Sub:
       return exp.minuend + exp.subtrahend;
     case M/Mul:
