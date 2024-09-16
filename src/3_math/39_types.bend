@@ -5,12 +5,12 @@ type M:
 
   # Values
   ABN { value }
-  #Var { name }
+  Var { name }
 
   # Basic Arithmetic Operations
   Add  { ~augend,     ~addend         }
   Sub  { ~minuend,    ~subtrahend     }
-  #Mul  { ~multiplier, ~multiplicand   }
+  Mul  { ~multiplier, ~multiplicand   }
   #Div  { ~numerator,  ~denominator    }
 
   #Exp  { ~base,       ~exponent       }

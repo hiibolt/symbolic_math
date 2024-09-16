@@ -1,4 +1,4 @@
-def evaluate ( exp ):
+def evaluate ( exp, vars ):
   fold exp:
     # Constants
     case M/Zero:
@@ -7,14 +7,16 @@ def evaluate ( exp ):
     # Values
     case M/ABN:
       return exp.value;
+    case M/Var:
+      return vars[exp.name];
 
     # Basic Arithmetic Operations
     case M/Add:
       return abn_add(exp.augend, exp.addend);
     case M/Sub:
       return abn_sub(exp.minuend, exp.subtrahend);
-    #case M/Mul:
-    #  return exp.multiplier * exp.multiplicand;
+    case M/Mul:
+      return abn_mul(exp.multiplier, exp.multiplicand);
     #case M/Div:
     #  return exp.numerator / exp.denominator;
 

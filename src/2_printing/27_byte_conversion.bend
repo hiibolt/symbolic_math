@@ -75,7 +75,8 @@ def exp_to_string ( m ):
     # Values
     case M/ABN:
       return abn_to_str(m.value)
-    #Var { name }
+    case M/Var:
+      return String/Cons { head: m.name, tail: List/Nil }
 
     # Basic Arithmetic Operations
     case M/Add:
@@ -88,7 +89,11 @@ def exp_to_string ( m ):
 
       # Add parentheses
       return List/concat(String/Cons { head: 40, tail: inner }, String/Cons { head: 41, tail: String/Nil })
-    #Mul  { ~multiplier, ~multiplicand   }
+    case M/Mul:
+      inner = List/concat(m.multiplier, String/Cons { head: 42, tail: m.multiplicand })
+
+      # Add parentheses
+      return List/concat(String/Cons { head: 40, tail: inner }, String/Cons { head: 41, tail: String/Nil })
     #Div  { ~numerator,  ~denominator    }
 
     #Exp  { ~base,       ~exponent       }

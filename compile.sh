@@ -11,6 +11,3 @@ find ./src -type f -name "*.bend" | sort -r | while read -r file; do
     echo >> ./_main.bend
     echo >> ./_main.bend
 done
-
-# Execute the _main.bend file with run_bend
-bend run-c ./_main.bend
